@@ -46,7 +46,7 @@ def send_message(bot, message):
 
 
 def get_api_answer(current_timestamp):
-    """Запрос к единственному эндпоинту API-сервиса и возврат ответа API"""
+    """Запрос к единственному эндпоинту API-сервиса и возврат ответа API."""
     timestamp = current_timestamp or int(time.time())
     params = {'from_date': timestamp}
     try:
@@ -64,7 +64,7 @@ def get_api_answer(current_timestamp):
 
 
 def check_response(response):
-    """Проверка ответа API на корректность"""
+    """Проверка ответа API на корректность."""
     if (not isinstance(response, dict)
             or not isinstance(response.get('homeworks'), list)):
         message = 'Неверный тип данных'
