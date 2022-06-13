@@ -30,7 +30,7 @@ logger.addHandler(stream_handler)
 
 
 def send_message(bot, message):
-    """Отправка сообщения в бот Telegram.   """
+    """Отправка сообщения в бот Telegram."""
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
         logger.info('Отправка сообщения')
