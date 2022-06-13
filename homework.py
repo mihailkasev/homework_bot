@@ -1,7 +1,7 @@
 from settings import RETRY_TIME, ENDPOINT, HOMEWORK_STATUSES
 import requests
-import logging
 import os
+import logging
 import time
 import telegram
 from http import HTTPStatus
@@ -15,9 +15,22 @@ TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID')
 HEADERS = {'Authorization': f'OAuth {PRACTICUM_TOKEN}'}
 
+# При настройке логгера в блоке if '__name__' == 'main' бот работает, #
+# но тесты не проходят проверку: ошибка в отсутствии логгирования для бота.
+# Пробовал варианты с logger в settings.py, настраивал глобальное логгирование.
+# Ошибка в тестах осталась.
+# В slack никто не отвечает, поэтому решил описать проблему в комментариях.
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+formatter = logging.Formatter(
+    '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
+stream_handler = logging.StreamHandler()
+stream_handler.setFormatter(formatter)
+logger.addHandler(stream_handler)
+
 
 def send_message(bot, message):
-    """Отправка сообщения в бот Telegram."""
+    """Отправка сообщения в бот Telegram.   """
     try:
         bot.send_message(TELEGRAM_CHAT_ID, message)
         logger.info('Отправка сообщения')
@@ -115,11 +128,4 @@ def main():
 
 
 if __name__ == '__main__':
-    logger = logging.getLogger(__name__)
-    logger.setLevel(logging.INFO)
-    formatter = logging.Formatter(
-        '%(asctime)s - %(levelname)s - %(name)s - %(message)s')
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatter)
-    logger.addHandler(stream_handler)
     main()
